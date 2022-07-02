@@ -15,6 +15,21 @@ class Seat {
     this.element = document.createElement('div')
     this.element.classList.add('seat')
     this.element.classList.add(this.status.toLowerCase())
+    this.element.addEventListener('click', () => {
+      this.handleClick()
+    })
+  }
+
+  handleClick() {
+    if (this.status === STATUS.OCCUPIED) return
+    this.element.classList.remove(this.status.toLowerCase())
+    this.status =
+      this.status === STATUS.AVAILABLE ? STATUS.SELECTED : STATUS.AVAILABLE
+    this.element.classList.add(this.status.toLowerCase())
+  }
+
+  get isSelected() {
+    return this.status === STATUS.SELECTED
   }
 }
 
@@ -33,6 +48,10 @@ class Row {
     this.element.classList.add('row')
     this.element.append(...this.seats.map((seat) => seat.element))
   }
+
+  get selectedSeatsId() {
+    return this.seats.filter((seat) => seat.isSelected).map((seat) => seat.id)
+  }
 }
 
 class SeatMap {
@@ -47,6 +66,18 @@ class SeatMap {
     this.element = document.createElement('div')
     this.element.classList.add('seat-map')
     this.element.append(...this.rows.map((row) => row.element))
+    this.element.addEventListener('click', () => {
+      this.getSelectedSeatsId()
+    })
+  }
+
+  getSelectedSeatsId() {
+    // this.selectedSeats = this.rows.reduce<number[]>((total, row) => {
+    //   total = [...total, ...row.selectedSeatsId]
+    //   return total
+    // }, [])
+    this.selectedSeats = this.rows.map((row) => row.selectedSeatsId).flat()
+    console.log(`selected seats: ${this.selectedSeats.join(',')}`)
   }
 }
 
