@@ -1,5 +1,5 @@
 import { Header } from './components'
-import { Home, Login } from './pages'
+import { Home, Login, SignUp } from './pages'
 
 import style from './App.module.css'
 
@@ -9,7 +9,8 @@ function App() {
       <Header />
       <main className={style.main}>
         {/* <Home /> */}
-        <Login />
+        {/* <Login /> */}
+        <SignUp />
       </main>
     </>
   )

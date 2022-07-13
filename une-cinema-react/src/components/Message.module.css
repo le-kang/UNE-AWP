@@ -1,0 +1,24 @@
+.message {
+  width: 100%;
+  padding: 1.5rem;
+  box-sizing: border-box;
+  color: white;
+  font-weight: 700;
+  border-radius: 1rem;
+}
+
+.info {
+  background-color: #2196F3;
+}
+
+.success {
+  background-color: #04AA6D;
+}
+
+.warning {
+  background-color: #ff9800;
+}
+
+.error {
+  background-color: #f44336;
+}
