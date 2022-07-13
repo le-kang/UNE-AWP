@@ -1,0 +1,53 @@
+.container {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: auto;
+  grid-gap: 1.5rem;
+  grid-template-areas: 
+    "poster title title title"
+    "poster details details details"
+    "poster details details details"
+    "description description description sessions";
+  width: 90%;
+  max-width: 1000px;
+  margin: 2rem auto;
+}
+
+.title {
+  grid-area: title;
+  margin: 0;
+}
+
+.poster {
+  width: 100%;
+  grid-area: poster;
+}
+
+.details {
+  grid-area: details;
+}
+
+.description {
+  line-height: 1.5rem;
+  grid-area: description;
+}
+
+.sessions {
+  grid-area: sessions;
+}
+
+.session {
+  cursor: pointer;
+  width: 100%;
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 1rem;
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.session:hover {
+  background-color: rgba(0, 0, 0, .08);;
+}

@@ -2,22 +2,23 @@ import { useEffect, useState } from 'react'
 import { MovieItem } from '../components'
 import type { Movie } from '../types'
 import http from '../utils/http'
+import movies from '../data/movies.json'
 
 import style from './Home.module.css'
 
 export default function Home() {
-  const [movies, setMovies] = useState<Movie[]>([])
+  // const [movies, setMovies] = useState<Movie[]>([])
 
-  const fetchMovies = async () => {
-    const fetchedMovies = await http<Movie[]>(
-      'https://une-cinema.free.beeceptor.com/api/movies'
-    )
-    setMovies(fetchedMovies)
-  }
+  // const fetchMovies = async () => {
+  //   const fetchedMovies = await http<Movie[]>(
+  //     'https://une-cinema.free.beeceptor.com/api/movies'
+  //   )
+  //   setMovies(fetchedMovies)
+  // }
 
-  useEffect(() => {
-    fetchMovies()
-  }, [])
+  // useEffect(() => {
+  //   fetchMovies()
+  // }, [])
 
   return (
     <div className={style.container}>

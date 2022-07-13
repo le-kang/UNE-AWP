@@ -1,0 +1,62 @@
+[
+  {
+    "id": 1,
+    "movieId": 1,
+    "theaterId": 1,
+    "time": "7:15 PM"
+  },
+  {
+    "id": 2,
+    "movieId": 1,
+    "theaterId": 2,
+    "time": "8:15 PM"
+  },
+  {
+    "id": 3,
+    "movieId": 2,
+    "theaterId": 3,
+    "time": "7:00 PM"
+  },
+  {
+    "id": 4,
+    "movieId": 3,
+    "theaterId": 1,
+    "time": "6:15 PM"
+  },
+  {
+    "id": 5,
+    "movieId": 3,
+    "theaterId": 3,
+    "time": "8:30 PM"
+  },
+  {
+    "id": 6,
+    "movieId": 4,
+    "theaterId": 2,
+    "time": "7:00 PM"
+  },
+  {
+    "id": 7,
+    "movieId": 5,
+    "theaterId": 3,
+    "time": "6:00 PM"
+  },
+  {
+    "id": 8,
+    "movieId": 5,
+    "theaterId": 1,
+    "time": "8:15 PM"
+  },
+  {
+    "id": 9,
+    "movieId": 6,
+    "theaterId": 2,
+    "time": "5:15 PM"
+  },
+  {
+    "id": 10,
+    "movieId": 6,
+    "theaterId": 3,
+    "time": "5:45 PM"
+  }
+]
