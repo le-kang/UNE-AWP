@@ -1,0 +1,12 @@
+.input {
+  width: 100%;
+  flex-grow: 1;
+  font-size: 1.5rem;
+  outline: none;
+  color: #4F58DF;
+  font-weight: bold;
+  border: 1px solid #ccc;
+  border-radius: 1rem;
+  padding: 1rem;
+  box-sizing: border-box;
+}

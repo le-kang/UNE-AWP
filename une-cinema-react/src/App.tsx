@@ -1,5 +1,5 @@
 import { Header } from './components'
-import { Home } from './pages'
+import { Home, Login } from './pages'
 
 import style from './App.module.css'
 
@@ -8,7 +8,8 @@ function App() {
     <>
       <Header />
       <main className={style.main}>
-        <Home />
+        {/* <Home /> */}
+        <Login />
       </main>
     </>
   )
