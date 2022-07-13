@@ -1,13 +1,13 @@
-import Header from './components/Header'
-import Home from './pages/Home'
+import { Header } from './components'
+import { Home } from './pages'
 
-import './App.css'
+import style from './App.module.css'
 
 function App() {
   return (
     <>
       <Header />
-      <main className="main">
+      <main className={style.main}>
         <Home />
       </main>
     </>
