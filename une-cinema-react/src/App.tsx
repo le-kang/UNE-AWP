@@ -8,9 +8,9 @@ function App() {
     <>
       <Header />
       <main className={style.main}>
-        {/* <Home /> */}
+        <Home />
         {/* <Login /> */}
-        <SignUp />
+        {/* <SignUp /> */}
       </main>
     </>
   )
