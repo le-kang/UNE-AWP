@@ -1,0 +1,55 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 90%;
+  max-width: 1200px;
+  margin: 2rem auto;
+}
+
+.header {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin: 1rem;
+}
+
+.theater {
+  display: flex;
+  flex-direction: column;
+  perspective: 500px;
+}
+
+.screen {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #ccc;
+  height: 70px;
+  width: 100%;
+  margin: 2rem 0;
+  transform: rotateX(-50deg);
+  box-shadow: 0 3px 10px #ccc;
+  font-size: 2rem;
+  color: white;
+  font-weight: 900;
+}
+
+.seats {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.button {
+  cursor: pointer;
+  width: 300px;
+  color: white;
+  font-size: 1.2rem;
+  font-weight: bold;
+  text-align: center;
+  margin: 2rem;
+  padding: 1rem;
+  border: none;
+  background-color: #4F58DF;
+  text-transform: uppercase;
+}

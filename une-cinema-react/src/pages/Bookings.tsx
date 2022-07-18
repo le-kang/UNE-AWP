@@ -4,6 +4,6 @@ import { UserContext } from '../context'
 
 export default function Bookings() {
   const { user } = useContext(UserContext)
-  if (!user) return <Navigate to="/login" />
+  if (!user) return <Navigate to="/login" replace />
   return <div>Bookings</div>
 }
