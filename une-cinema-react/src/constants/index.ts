@@ -3,3 +3,8 @@ export enum SEAT_STATUS {
   SELECTED = 'SELECTED',
   OCCUPIED = 'OCCUPIED',
 }
+
+export enum BookingActionType {
+  SELECT = 'SELECT',
+  DESELECT = 'DESELECT',
+}

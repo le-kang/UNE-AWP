@@ -5,10 +5,12 @@ import style from './Seat.module.css'
 
 type SeatProps = {
   id: number
+  onSelect: () => void
+  onDeselect: () => void
 }
 
 export default function Seat(props: SeatProps) {
-  const { id } = props
+  const { id, onSelect, onDeselect } = props
   const [status, setStatus] = useState(SEAT_STATUS.AVAILABLE)
 
   const getClassNames = () => {
@@ -29,9 +31,11 @@ export default function Seat(props: SeatProps) {
     if (status === SEAT_STATUS.AVAILABLE) {
       console.log('select seat', id)
       setStatus(SEAT_STATUS.SELECTED)
+      onSelect()
     } else if (status === SEAT_STATUS.SELECTED) {
       console.log('deselect seat', id)
       setStatus(SEAT_STATUS.AVAILABLE)
+      onDeselect()
     }
   }
 
