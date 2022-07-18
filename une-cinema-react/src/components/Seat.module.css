@@ -1,0 +1,24 @@
+.seat {
+  height: 3rem;
+  width: 3rem;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-top-left-radius: 0.5rem;
+  border-top-right-radius: 0.5rem;
+  box-sizing: border-box;
+  cursor: pointer;
+}
+
+.seat.occupied {
+  background-color: rgba(0, 0, 0, .08);
+  cursor: not-allowed;
+}
+
+.seat.selected {
+  background-color: #16437E;
+}
+
+.seat.available:hover {
+  opacity: 0.5;
+  background-color: #16437E;
+}
