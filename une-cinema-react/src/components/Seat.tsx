@@ -5,13 +5,16 @@ import style from './Seat.module.css'
 
 type SeatProps = {
   id: number
+  isSelected?: boolean
   onSelect: () => void
   onDeselect: () => void
 }
 
 export default function Seat(props: SeatProps) {
-  const { id, onSelect, onDeselect } = props
-  const [status, setStatus] = useState(SEAT_STATUS.AVAILABLE)
+  const { id, onSelect, onDeselect, isSelected = false } = props
+  const [status, setStatus] = useState(
+    isSelected ? SEAT_STATUS.SELECTED : SEAT_STATUS.AVAILABLE
+  )
 
   const getClassNames = () => {
     const className = style.seat

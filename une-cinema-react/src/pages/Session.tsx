@@ -1,7 +1,8 @@
 import { useContext, useReducer } from 'react'
-import { Navigate, useParams } from 'react-router-dom'
+import { Navigate, useParams, useNavigate } from 'react-router-dom'
 import { UserContext } from '../context'
 import { Seat } from '../components'
+import { useLocalStorage } from '../hooks'
 import movies from '../data/movies.json'
 import sessions from '../data/sessions.json'
 import theaters from '../data/theaters.json'
@@ -26,10 +27,21 @@ function bookingReducer(state: number[], action: BookingAction) {
   }
 }
 
+// {
+//   "session-1": [2,3]
+//   "session-2": [0,1]
+// }
+
 export default function Session() {
   const { user } = useContext(UserContext)
-  const [state, dispatch] = useReducer(bookingReducer, [])
   const { sessionId } = useParams()
+  const navigate = useNavigate()
+  const [bookings, saveBookings] = useLocalStorage<Record<string, number[]>>(
+    'bookings',
+    {}
+  )
+  const selectedSeats = bookings[`session-${sessionId}`] || []
+  const [state, dispatch] = useReducer(bookingReducer, selectedSeats)
   if (!user) return <Navigate to="/login" replace />
   if (!sessionId) return null
   const session = sessions.find((s) => s.id === parseInt(sessionId))
@@ -37,6 +49,11 @@ export default function Session() {
   const theater = theaters.find((t) => t.id === session.theaterId)
   if (!theater) return null
   const { rows, seats } = theater
+
+  const handleConfirmClick = () => {
+    saveBookings({ ...bookings, [`session-${sessionId}`]: state })
+    navigate('/bookings')
+  }
 
   return (
     <div className={style.container}>
@@ -53,6 +70,7 @@ export default function Session() {
             <Seat
               key={`seat-${index}`}
               id={index}
+              isSelected={selectedSeats.includes(index)}
               onSelect={() =>
                 dispatch({ type: BookingActionType.SELECT, payload: index })
               }
@@ -63,7 +81,7 @@ export default function Session() {
           ))}
         </div>
       </div>
-      <button className={style.button} onClick={() => console.log(state)}>
+      <button className={style.button} onClick={handleConfirmClick}>
         Confirm
       </button>
     </div>
