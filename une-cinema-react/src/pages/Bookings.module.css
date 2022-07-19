@@ -1,0 +1,37 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  width: 90%;
+  max-width: 800px;
+  margin: 2rem auto;
+}
+
+.header {
+  padding: 1rem;
+  border-bottom: 2px solid #000;
+}
+
+.list {
+  display: flex;
+  font-size: 1.2rem;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.title {
+  flex: 1;
+  font-weight: 800;
+}
+
+.button {
+  cursor: pointer;
+  color: white;
+  font-size: 1rem;
+  font-weight: bold;
+  text-align: center;
+  margin-left: 1rem;
+  padding: 0.5rem 1rem;
+  border: none;
+  background-color: #4F58DF;
+  text-transform: uppercase;
+}

@@ -1,4 +1,4 @@
-import { useState, useContext } from 'react'
+import { useState, useContext, useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Button, Input, Message } from '../components'
 import { UserContext } from '../context'
@@ -8,6 +8,7 @@ import style from './Login.module.css'
 
 export default function Login() {
   const { login } = useContext(UserContext)
+  const usernameInput = useRef<HTMLInputElement | null>(null)
   const navigate = useNavigate()
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
@@ -25,6 +26,12 @@ export default function Login() {
     }
   }
 
+  useEffect(() => {
+    if (usernameInput.current) {
+      usernameInput.current.focus()
+    }
+  }, [])
+
   return (
     <form
       className={style.container}
@@ -37,6 +44,7 @@ export default function Login() {
         <Message variant="error" message="Invalid username or password" />
       )}
       <Input
+        ref={usernameInput}
         name="username"
         placeholder="Username"
         value={username}

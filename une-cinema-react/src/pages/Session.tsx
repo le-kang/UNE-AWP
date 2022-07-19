@@ -40,7 +40,8 @@ export default function Session() {
     'bookings',
     {}
   )
-  const selectedSeats = bookings[`session-${sessionId}`] || []
+  const { [`session-${sessionId}`]: selectedSeats = [], ...otherBookings } =
+    bookings
   const [state, dispatch] = useReducer(bookingReducer, selectedSeats)
   if (!user) return <Navigate to="/login" replace />
   if (!sessionId) return null
@@ -51,7 +52,11 @@ export default function Session() {
   const { rows, seats } = theater
 
   const handleConfirmClick = () => {
-    saveBookings({ ...bookings, [`session-${sessionId}`]: state })
+    if (state.length > 0) {
+      saveBookings({ ...bookings, [`session-${sessionId}`]: state })
+    } else {
+      saveBookings(otherBookings)
+    }
     navigate('/bookings')
   }
 
