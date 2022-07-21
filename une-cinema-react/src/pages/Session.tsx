@@ -7,13 +7,9 @@ import movies from '../data/movies.json'
 import sessions from '../data/sessions.json'
 import theaters from '../data/theaters.json'
 import { BookingActionType } from '../constants'
+import { BookingAction } from '../types'
 
 import style from './Session.module.css'
-
-type BookingAction = {
-  type: BookingActionType
-  payload: number
-}
 
 function bookingReducer(state: number[], action: BookingAction) {
   const { type, payload } = action
@@ -76,12 +72,7 @@ export default function Session() {
               key={`seat-${index}`}
               id={index}
               isSelected={selectedSeats.includes(index)}
-              onSelect={() =>
-                dispatch({ type: BookingActionType.SELECT, payload: index })
-              }
-              onDeselect={() =>
-                dispatch({ type: BookingActionType.DESELECT, payload: index })
-              }
+              dispatch={dispatch}
             />
           ))}
         </div>

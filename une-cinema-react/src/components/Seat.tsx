@@ -1,46 +1,46 @@
-import { useState } from 'react'
-import { SEAT_STATUS } from '../constants'
+import { useState, memo } from 'react'
+import { BookingActionType, SEAT_STATUS } from '../constants'
+import { BookingAction } from '../types'
 
 import style from './Seat.module.css'
 
 type SeatProps = {
   id: number
   isSelected?: boolean
-  onSelect: () => void
-  onDeselect: () => void
+  dispatch: React.Dispatch<BookingAction>
 }
 
-export default function Seat(props: SeatProps) {
-  const { id, onSelect, onDeselect, isSelected = false } = props
+const getClassNames = (status: SEAT_STATUS) => {
+  const className = style.seat
+  switch (status) {
+    case SEAT_STATUS.AVAILABLE:
+      return `${className} ${style.available}`
+    case SEAT_STATUS.SELECTED:
+      return `${className} ${style.selected}`
+    case SEAT_STATUS.OCCUPIED:
+      return `${className} ${style.occupied}`
+    default:
+      return className
+  }
+}
+
+export default memo(function Seat(props: SeatProps) {
+  const { id, dispatch, isSelected = false } = props
   const [status, setStatus] = useState(
     isSelected ? SEAT_STATUS.SELECTED : SEAT_STATUS.AVAILABLE
   )
-
-  const getClassNames = () => {
-    const className = style.seat
-    switch (status) {
-      case SEAT_STATUS.AVAILABLE:
-        return `${className} ${style.available}`
-      case SEAT_STATUS.SELECTED:
-        return `${className} ${style.selected}`
-      case SEAT_STATUS.OCCUPIED:
-        return `${className} ${style.occupied}`
-      default:
-        return className
-    }
-  }
 
   const handleClick = () => {
     if (status === SEAT_STATUS.AVAILABLE) {
       console.log('select seat', id)
       setStatus(SEAT_STATUS.SELECTED)
-      onSelect()
+      dispatch({ type: BookingActionType.SELECT, payload: id })
     } else if (status === SEAT_STATUS.SELECTED) {
       console.log('deselect seat', id)
       setStatus(SEAT_STATUS.AVAILABLE)
-      onDeselect()
+      dispatch({ type: BookingActionType.DESELECT, payload: id })
     }
   }
 
-  return <div className={getClassNames()} onClick={handleClick} />
-}
+  return <div className={getClassNames(status)} onClick={handleClick} />
+})
