@@ -32,15 +32,19 @@ export default memo(function Seat(props: SeatProps) {
 
   const handleClick = () => {
     if (status === SEAT_STATUS.AVAILABLE) {
-      console.log('select seat', id)
       setStatus(SEAT_STATUS.SELECTED)
       dispatch({ type: BookingActionType.SELECT, payload: id })
     } else if (status === SEAT_STATUS.SELECTED) {
-      console.log('deselect seat', id)
       setStatus(SEAT_STATUS.AVAILABLE)
       dispatch({ type: BookingActionType.DESELECT, payload: id })
     }
   }
 
-  return <div className={getClassNames(status)} onClick={handleClick} />
+  return (
+    <div
+      className={getClassNames(status)}
+      onClick={handleClick}
+      data-testid="seat"
+    />
+  )
 })
