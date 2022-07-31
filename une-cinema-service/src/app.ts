@@ -1,8 +1,9 @@
 import express, { Express, Request, Response } from 'express';
 import dotenv from 'dotenv';
 
-import movieRouter from './router/movie.router';
-import bookingRouter from './router/booking.router';
+import theatreHandler from './handler/theatres.handler';
+import movieHandler from './handler/movie.handler';
+import bookingHandler from './handler/booking.handler';
 
 dotenv.config();
 
@@ -10,8 +11,9 @@ const app: Express = express();
 const port = process.env.PORT;
 app.use(express.json());
 
-app.use('/movies', movieRouter);
-app.use('/bookings', bookingRouter)
+app.use('/theatres', theatreHandler)
+app.use('/movies', movieHandler);
+app.use('/bookings', bookingHandler)
 
 app.listen(port, () => {
   console.log(`⚡️[server]: Server is running at https://localhost:${port}`);
