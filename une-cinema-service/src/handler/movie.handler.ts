@@ -71,7 +71,7 @@ movieHandler.get("/", (req: Request, res: Response) => {
 movieHandler.get("/:movieId", validateSchema(getMovieByIdSchema), (req: Request, res: Response) => {
   const result = MOVIES.find((m) => (m._id.toString() === req.params.movieId));
   if(result) {
-    res.status(200).json(result);
+    return res.status(200).json(result);
   }
   res.sendStatus(404);
 })
