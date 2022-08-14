@@ -19,13 +19,13 @@
   },
   {
     "_id": "62f87694c39f8c1da25689bc",
-    "movieId": "62f875f70860a1d7140f99d3",
+    "movieId": "62f875f70860a1d7140f9933",
     "theaterId": "62f876cd425096e7ac6be8d1",
     "time": "6:15 PM"
   },
   {
     "_id": "62f8769b4a8cb228a452f9a7",
-    "movieId": "62f875f70860a1d7140f99d3",
+    "movieId": "62f875f70860a1d7140f9933",
     "theaterId": "62f876cd425096e7ac6be8d1",
     "time": "8:30 PM"
   },
@@ -49,13 +49,13 @@
   },
   {
     "_id": "62f876b60620f941bb48dc76",
-    "movieId": "62f875f70860a1d7140f99d6",
+    "movieId": "62f875f70860a1d7140f9966",
     "theaterId": "62f876cd425096e7ac6be8d2",
     "time": "5:15 PM"
   },
   {
     "_id": "62f876bda40e647397108278",
-    "movieId": "62f875f70860a1d7140f99d6",
+    "movieId": "62f875f70860a1d7140f9966",
     "theaterId": "62f876cd425096e7ac6be8d3",
     "time": "5:45 PM"
   }

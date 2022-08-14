@@ -5,6 +5,7 @@ import validateSchema from '../middleware/validateSchema';
 import { getMovieByIdSchema } from '../schema/movie.schema';
 
 import { getAllMovies, getMovieById } from '../service/movie.service'
+import { getSessionsByMovieId } from "../service/session.service";
 
 const movieHandler = express.Router();
 
@@ -22,12 +23,13 @@ movieHandler.get("/", async (req: Request, res: Response) => {
   }
 })
 
+// GET movie by ID, expecting moview + session info
 movieHandler.get("/:movieId", validateSchema(getMovieByIdSchema), async (req: Request, res: Response) => {
-  const result = await getMovieById(req.params.movieId);
-  if(result) {
-    return res.status(200).json(result);
-  }
-  res.sendStatus(404);
+  const movie = await getMovieById(req.params.movieId);
+  console.log(movie)
+  if (!movie) return res.sendStatus(404);
+  const sessions = await getSessionsByMovieId(req.params.movieId)
+  return res.status(200).json({ ...movie, sessions });
 })
 
 // // Get sessions for a movie
