@@ -14,7 +14,7 @@ movieHandler.get("/", async (req: Request, res: Response) => {
   try {
     const result = await getAllMovies();
     return res.status(200).send(result.map(m => ({
-      _id: m.id,
+      _id: m._id,
       title: m.title,
       poster: m.poster
     })));
