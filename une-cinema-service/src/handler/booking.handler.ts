@@ -3,23 +3,19 @@ import express, { Request, Response } from "express";
 import validateSchema from '../middleware/validateSchema';
 
 import { createBookingSchema, updateBookingScehma, deleteBookingScehma, getBookingsSchema } from '../schema/booking.schema';
+import { getRichBookingsDetailsByUserId } from "../service/booking.service";
 
 const bookingHandler = express.Router();
 
-// Get bookings
-bookingHandler.get("/session/:sessionId", validateSchema(getBookingsSchema), (req: Request, res: Response) => {
-  res.status(200).json([
-    {
-      sessionId: '10970b46-ecf7-4024-b0db-e429f3d76254',
-      row: 3,
-      seat: 5
-    },
-    {
-      sessionId: '10970b46-ecf7-4024-b0db-e429f3d76254',
-      row: 1,
-      seat: 8
-    }
-  ])
+// Get bookings for current user
+bookingHandler.get("/", async (req: Request, res: Response) => {
+  // TODO: decode user id from token
+  const userId = "62f88bd5e67347af189c4baa";
+
+  // introducing Mongoose aggregate
+  const bookings = await getRichBookingsDetailsByUserId(userId);
+
+  res.status(200).json(bookings)
 })
 
 // Create a booking
