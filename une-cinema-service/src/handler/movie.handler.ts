@@ -24,11 +24,12 @@ movieHandler.get("/", async (req: Request, res: Response) => {
 })
 
 // GET movie by ID, expecting moview + session info
-movieHandler.get("/:movieId", validateSchema(getMovieByIdSchema), async (req: Request, res: Response) => {
-  const movie = await getMovieById(req.params.movieId);
-  console.log(movie)
+movieHandler.get("/:id", validateSchema(getMovieByIdSchema), async (req: Request, res: Response) => {
+  const movieId = req.params.id;
+
+  const movie = await getMovieById(movieId);
   if (!movie) return res.sendStatus(404);
-  const sessions = await getSessionsByMovieId(req.params.movieId)
+  const sessions = await getSessionsByMovieId(movieId)
   return res.status(200).json({ ...movie, sessions });
 })
 

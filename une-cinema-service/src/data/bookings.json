@@ -1,0 +1,12 @@
+[
+  {
+    "userId": "62f88bd5e67347af189c4baa",
+    "sessionId": "62f87675bebc07b56c891634",
+    "seats": [1,2]
+  },
+  {
+    "userId": "62f88bd5e67347af189c4bbb",
+    "sessionId": "62f87675bebc07b56c891634",
+    "seats": [3,4]
+  }
+]

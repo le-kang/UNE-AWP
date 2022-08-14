@@ -4,13 +4,13 @@ import { TheatreDocument } from "./theatre.model";
 
 export interface SessionDocument extends Document {
   movieId: MovieDocument["_id"];
-  theaterId: TheatreDocument["_id"];
+  theatreId: TheatreDocument["_id"];
   time: string;
 }
 
 const sessionSchema = new mongoose.Schema({
   movieId: { type: mongoose.Schema.Types.ObjectId, ref: "Movie" },
-  theaterId: { type: mongoose.Schema.Types.ObjectId, ref: "Theatre" },
+  theatreId: { type: mongoose.Schema.Types.ObjectId, ref: "Theatre" },
   time: String
 })
 

@@ -1,15 +1,15 @@
-import { number, object, TypeOf } from "zod";
+import { string, object, TypeOf } from "zod";
 
 const params = {
   params: object({
-    movieId: number({
-      required_error: "Movie id is required",
+    id: string({
+      required_error: "Session id is required",
     }),
   }),
 };
 
-const getSessionByIdSchema = object({
+export const getSessionByIdSchema = object({
   ...params
 })
 
-export type GetSessionByMovieIdInput = TypeOf<typeof getSessionByIdSchema>;
+export type GetSessionByIdInput = TypeOf<typeof getSessionByIdSchema>;

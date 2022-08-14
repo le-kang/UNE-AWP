@@ -6,6 +6,7 @@ import connectDB from './util/connectDB';
 import theatreHandler from './handler/theatres.handler';
 import movieHandler from './handler/movie.handler';
 import bookingHandler from './handler/booking.handler';
+import sessionHandler from './handler/session.handler';
 
 dotenv.config();
 
@@ -19,6 +20,7 @@ app.use(express.json());
 app.use('/theatres', theatreHandler)
 app.use('/movies', movieHandler);
 app.use('/bookings', bookingHandler)
+app.use('/sessions', sessionHandler)
 
 // only listen to request when DB connection is established
 mongoose.connection.once('connected', () => {

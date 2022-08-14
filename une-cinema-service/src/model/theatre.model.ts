@@ -12,4 +12,4 @@ const theatreSchema = new mongoose.Schema({
   aisles: [Number]
 })
 
-export default mongoose.model<TheatreDocument>("Theater", theatreSchema)
+export default mongoose.model<TheatreDocument>("Theatre", theatreSchema)

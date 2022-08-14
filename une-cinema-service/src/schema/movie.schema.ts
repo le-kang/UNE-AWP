@@ -2,7 +2,7 @@ import { string, object, TypeOf } from "zod";
 
 const params = {
   params: object({
-    movieId: string({
+    id: string({
       required_error: "Movie id is required",
     }),
   }),

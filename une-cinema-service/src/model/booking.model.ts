@@ -9,9 +9,9 @@ export interface BookingDocument extends Document {
 }
 
 const bookingSchema = new mongoose.Schema({
-  rows: Number,
-  seats: Number,
-  aisles: [Number]
+  userId: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+  sessionId: { type: mongoose.Schema.Types.ObjectId, ref: "Session" },
+  seats: [Number]
 })
 
 export default mongoose.model<BookingDocument>("Booking", bookingSchema)

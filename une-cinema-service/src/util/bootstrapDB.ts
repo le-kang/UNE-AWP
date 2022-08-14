@@ -10,15 +10,18 @@ import movies from '../data/movies.json';
 import SessionModel from '../model/session.model';
 import sessions from '../data/sessions.json';
 
-import TheaterModel from "../model/theatre.model";
-import theraters from "../data/theaters.json";
+import TheatreModel from "../model/theatre.model";
+import theraters from "../data/theatres.json";
+
+import BookingModel from '../model/booking.model';
+import bookings from '../data/bookings.json';
 
 const run = async () => {
   try {
     await connect();
 
     await UserModel.deleteMany();
-    await UserModel.create(users);
+    await UserModel.insertMany(users);
 
     await MovieModel.deleteMany();
     await MovieModel.insertMany(movies);
@@ -26,8 +29,11 @@ const run = async () => {
     await SessionModel.deleteMany();
     await SessionModel.insertMany(sessions);
 
-    await TheaterModel.deleteMany();
-    await TheaterModel.insertMany(theraters);
+    await TheatreModel.deleteMany();
+    await TheatreModel.insertMany(theraters);
+
+    await BookingModel.deleteMany();
+    await BookingModel.insertMany(bookings);
 
     process.exit(0)
   } catch (err) {
