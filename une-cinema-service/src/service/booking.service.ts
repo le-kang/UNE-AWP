@@ -1,4 +1,4 @@
-import mongoose, { FilterQuery } from 'mongoose';
+import mongoose, { DocumentDefinition, FilterQuery } from 'mongoose';
 import BookingModel, { BookingDocument } from '../model/booking.model';
 
 export async function getBookingsBySessionId(sessionId: string) {
@@ -58,6 +58,10 @@ export async function getRichBookingsDetailsByUserId(userId: string) {
       }
     }
   ])
+}
+
+export async function createBooking(input: DocumentDefinition<BookingDocument>) {
+  return BookingModel.create(input);
 }
 
 export async function getBookingsByFilter(query: FilterQuery<BookingDocument>) {
