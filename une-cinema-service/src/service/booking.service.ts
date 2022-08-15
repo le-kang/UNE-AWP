@@ -64,6 +64,20 @@ export async function createBooking(input: DocumentDefinition<BookingDocument>) 
   return BookingModel.create(input);
 }
 
+export async function updateBooking(id: string, input: DocumentDefinition<BookingDocument>) {
+  return BookingModel.findOneAndUpdate(
+    {_id: new mongoose.Types.ObjectId(id)},
+    input,
+    {new: true} // new option to true to return the document after update was applied.
+  )
+}
+
+export async function deletBooking(id: string) {
+  return BookingModel.deleteOne({
+    _id: new mongoose.Types.ObjectId(id)
+  })
+}
+
 export async function getBookingsByFilter(query: FilterQuery<BookingDocument>) {
   return await BookingModel.find(query).lean();
 }
