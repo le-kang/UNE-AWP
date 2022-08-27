@@ -1,0 +1,62 @@
+[
+  {
+    "_id": "62f87675bebc07b56c891634",
+    "movieId": "62f875f70860a1d7140f99d1",
+    "theatreId": "62f876cd425096e7ac6be8d1",
+    "time": "7:15 PM"
+  },
+  {
+    "_id": "62f87686046144b2db50b8a1",
+    "movieId": "62f875f70860a1d7140f99d1",
+    "theatreId": "62f876cd425096e7ac6be8d2",
+    "time": "8:15 PM"
+  },
+  {
+    "_id": "62f8768c91441247ce0774ad",
+    "movieId": "62f875f70860a1d7140f99d2",
+    "theatreId": "62f876cd425096e7ac6be8d3",
+    "time": "7:00 PM"
+  },
+  {
+    "_id": "62f87694c39f8c1da25689bc",
+    "movieId": "62f875f70860a1d7140f9933",
+    "theatreId": "62f876cd425096e7ac6be8d1",
+    "time": "6:15 PM"
+  },
+  {
+    "_id": "62f8769b4a8cb228a452f9a7",
+    "movieId": "62f875f70860a1d7140f9933",
+    "theatreId": "62f876cd425096e7ac6be8d1",
+    "time": "8:30 PM"
+  },
+  {
+    "_id": "62f876a3e9deb830c5863653",
+    "movieId": "62f875f70860a1d7140f99d4",
+    "theatreId": "62f876cd425096e7ac6be8d2",
+    "time": "7:00 PM"
+  },
+  {
+    "_id": "62f876aa9ecd87a8039cbbba",
+    "movieId": "62f875f70860a1d7140f99d5",
+    "theatreId": "62f876cd425096e7ac6be8d3",
+    "time": "6:00 PM"
+  },
+  {
+    "_id": "62f876b1e720bd4163b880f8",
+    "movieId": "62f875f70860a1d7140f99d5",
+    "theatreId": "62f876cd425096e7ac6be8d1",
+    "time": "8:15 PM"
+  },
+  {
+    "_id": "62f876b60620f941bb48dc76",
+    "movieId": "62f875f70860a1d7140f9966",
+    "theatreId": "62f876cd425096e7ac6be8d2",
+    "time": "5:15 PM"
+  },
+  {
+    "_id": "62f876bda40e647397108278",
+    "movieId": "62f875f70860a1d7140f9966",
+    "theatreId": "62f876cd425096e7ac6be8d3",
+    "time": "5:45 PM"
+  }
+]

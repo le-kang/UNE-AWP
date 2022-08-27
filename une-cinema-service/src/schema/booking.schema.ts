@@ -1,16 +1,13 @@
-import { object, string, number, TypeOf } from "zod";
+import { object, string, number, array, TypeOf } from "zod";
 
 const payload = {
   body: object({
     sessionId: string({
       required_error: "Session id is required",
     }),
-    row: number({
-      required_error: "Row is required",
-    }),
-    seat: number({
-      required_error: "Seat is required",
-    })
+    seats: array(number({
+      required_error: "Seats are required",
+    })).nonempty()
   })
 }
 

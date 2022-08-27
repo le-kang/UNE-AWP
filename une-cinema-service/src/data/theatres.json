@@ -1,0 +1,20 @@
+[
+  {
+    "_id": "62f876cd425096e7ac6be8d1",
+    "rows": 8,
+    "seats": 9,
+    "aisles": [3, 7]
+  },
+  {
+    "_id": "62f876cd425096e7ac6be8d2",
+    "rows": 7,
+    "seats": 8,
+    "aisles": [4]
+  },
+  {
+    "_id": "62f876cd425096e7ac6be8d3",
+    "rows": 12,
+    "seats": 10,
+    "aisles": [5]
+  }
+]
