@@ -6,24 +6,26 @@ import validateSchema from '../middleware/validateSchema';
 
 import { createBookingSchema, updateBookingScehma, deleteBookingScehma } from '../schema/booking.schema';
 import { getRichBookingsDetailsByUserId, getBookingsByFilter, createBooking, updateBooking, deletBooking } from "../service/booking.service";
+import { deserializeUser } from "../middleware/deserializeUser";
 
 const bookingHandler = express.Router();
+bookingHandler.use(deserializeUser);
 
 // Get bookings for current user
 bookingHandler.get("/", async (req: Request, res: Response) => {
   // TODO: decode user id from token
-  const userId = "62f88bd5e67347af189c4baa";
+  const userId = req.userId;
 
   // introducing Mongoose aggregate
   const bookings = await getRichBookingsDetailsByUserId(userId);
 
-  res.status(200).json(bookings)
+  return res.status(200).json(bookings)
 })
 
 // Create a booking
 bookingHandler.post("/", validateSchema(createBookingSchema), async (req: Request, res: Response) => {
   // TODO: decode user id from token
-  const userId = "62f88bd5e67347af189c4baa";
+  const userId = req.userId;
   const booking = req.body;
   const bookingsForTheSession = await getBookingsByFilter({ sessionId: new mongoose.Types.ObjectId(booking.sessionId)});
   const allOccupiedSeats = bookingsForTheSession.length ? bookingsForTheSession.map(b => (b.seats)).flat() : [];
@@ -37,7 +39,7 @@ bookingHandler.post("/", validateSchema(createBookingSchema), async (req: Reques
 // Modify a booking
 bookingHandler.put("/:id", validateSchema(updateBookingScehma), async (req: Request, res: Response) => {
   // TODO: decode user id from token
-  const userId = "62f88bd5e67347af189c4baa";
+  const userId = req.userId;
   const booking = req.body;
   const bookingId = req.params.id;
   const bookingsForTheSession = await getBookingsByFilter({ sessionId: new mongoose.Types.ObjectId(booking.sessionId), _id: {$ne: new mongoose.Types.ObjectId(bookingId)} });
@@ -53,7 +55,7 @@ bookingHandler.put("/:id", validateSchema(updateBookingScehma), async (req: Requ
 bookingHandler.delete("/:id", validateSchema(deleteBookingScehma), async (req: Request, res: Response) => {
   const bookingId = req.params.id;
   await deletBooking(bookingId);
-  res.sendStatus(200);
+  return res.sendStatus(200);
 })
 
 export default bookingHandler;

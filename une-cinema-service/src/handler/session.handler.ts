@@ -6,13 +6,16 @@ import { getSessionById } from "../service/session.service";
 import { getMovieById } from "../service/movie.service";
 import { getTheatreById } from "../service/theatre.service";
 import { getBookingsBySessionId, getBookingsByFilter } from "../service/booking.service";
+import { deserializeUser } from "../middleware/deserializeUser";
 
 const sessionHandler = express.Router();
+
+sessionHandler.use(deserializeUser);
 
 // Get session details, expecting movie, session, theatre, booked seats and occupied seats
 sessionHandler.get("/:id", validateSchema(getSessionByIdSchema), async (req: Request, res: Response) => {
   const sessionId = req.params.id;
-  const userId = "62f88bd5e67347af189c4baa";
+  const userId = req.userId;
 
   const session = await getSessionById(sessionId);
   if(!session) return res.sendStatus(404);
