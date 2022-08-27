@@ -42,19 +42,21 @@ bookingHandler.put("/:id", validateSchema(updateBookingScehma), async (req: Requ
   const userId = req.userId;
   const booking = req.body;
   const bookingId = req.params.id;
+
   const bookingsForTheSession = await getBookingsByFilter({ sessionId: new mongoose.Types.ObjectId(booking.sessionId), _id: {$ne: new mongoose.Types.ObjectId(bookingId)} });
   const allOccupiedSeats = bookingsForTheSession.length ? bookingsForTheSession.map(b => (b.seats)).flat() : [];
   const overlappingSeats = !!intersection(allOccupiedSeats, booking.seats).length;
   if(overlappingSeats) return res.sendStatus(400);
 
-  const newBooking = await updateBooking(bookingId, { ...booking, userId });
+  const newBooking = await updateBooking(bookingId, userId, { ...booking, userId });
   if(!newBooking) return res.sendStatus(404)
   return res.status(200).json(newBooking)
 })
 
 bookingHandler.delete("/:id", validateSchema(deleteBookingScehma), async (req: Request, res: Response) => {
   const bookingId = req.params.id;
-  await deletBooking(bookingId);
+  const userId = req.userId;
+  await deletBooking(bookingId, userId);
   return res.sendStatus(200);
 })
 

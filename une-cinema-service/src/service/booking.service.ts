@@ -6,7 +6,7 @@ export async function getBookingsBySessionId(sessionId: string) {
 }
 
 export async function getRichBookingsDetailsByUserId(userId: string) {
-   return await BookingModel.aggregate([
+  return await BookingModel.aggregate([
     // filter with userID
     {
       $match: { userId: new mongoose.Types.ObjectId(userId) }
@@ -53,8 +53,8 @@ export async function getRichBookingsDetailsByUserId(userId: string) {
         userId: 1,
         sessionId: 1,
         seatCount: { $size: "$seats" },
-        movieTitle: { "$arrayElemAt": [ "$movieDetail.title", 0 ] },
-        sessionTime: { "$arrayElemAt": [ "$sessionDetail.time", 0 ] }
+        movieTitle: { "$arrayElemAt": ["$movieDetail.title", 0] },
+        sessionTime: { "$arrayElemAt": ["$sessionDetail.time", 0] }
       }
     }
   ])
@@ -64,17 +64,21 @@ export async function createBooking(input: DocumentDefinition<BookingDocument>) 
   return BookingModel.create(input);
 }
 
-export async function updateBooking(id: string, input: DocumentDefinition<BookingDocument>) {
+export async function updateBooking(id: string, userId: string, input: DocumentDefinition<BookingDocument>) {
   return BookingModel.findOneAndUpdate(
-    {_id: new mongoose.Types.ObjectId(id)},
+    {
+      _id: new mongoose.Types.ObjectId(id),
+      userId: new mongoose.Types.ObjectId(userId)
+    },
     input,
-    {new: true} // new option to true to return the document after update was applied.
+    { new: true } // new option to true to return the document after update was applied.
   )
 }
 
-export async function deletBooking(id: string) {
+export async function deletBooking(id: string, userId: string,) {
   return BookingModel.deleteOne({
-    _id: new mongoose.Types.ObjectId(id)
+    _id: new mongoose.Types.ObjectId(id),
+    userId: new mongoose.Types.ObjectId(userId)
   })
 }
 
