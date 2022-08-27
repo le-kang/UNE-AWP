@@ -18,11 +18,11 @@ const app: Express = express();
 const port = process.env.PORT;
 app.use(express.json());
 
-app.use('/theatres', theatreHandler)
-app.use('/movies', movieHandler);
-app.use('/bookings', bookingHandler)
-app.use('/sessions', sessionHandler)
-app.use('/auth', authHandler);
+app.use('/api/theatres', theatreHandler)
+app.use('/api/movies', movieHandler);
+app.use('/api/bookings', bookingHandler)
+app.use('/api/sessions', sessionHandler)
+app.use('/api/auth', authHandler);
 
 // only listen to request when DB connection is established
 mongoose.connection.once('connected', () => {
