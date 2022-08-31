@@ -1,15 +1,15 @@
-import { string, object, TypeOf } from "zod";
+import { string, object, TypeOf } from 'zod'
 
 const params = {
   params: object({
     id: string({
-      required_error: "Session id is required",
+      required_error: 'Session id is required',
     }),
   }),
-};
+}
 
 export const getSessionByIdSchema = object({
-  ...params
+  ...params,
 })
 
-export type GetSessionByIdInput = TypeOf<typeof getSessionByIdSchema>;
+export type GetSessionByIdInput = TypeOf<typeof getSessionByIdSchema>

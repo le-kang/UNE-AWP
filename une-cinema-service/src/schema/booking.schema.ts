@@ -1,48 +1,49 @@
-import { object, string, number, array, TypeOf } from "zod";
+import { object, string, number, array, TypeOf } from 'zod'
 
 const payload = {
   body: object({
     sessionId: string({
-      required_error: "Session id is required",
+      required_error: 'Session id is required',
     }),
-    seats: array(number({
-      required_error: "Seats are required",
-    })).nonempty()
-  })
+    seats: array(
+      number({
+        required_error: 'Seats are required',
+      })
+    ).nonempty(),
+  }),
 }
 
 const getParams = {
   params: object({
     sessionId: string({
-      required_error: "Session id is required",
+      required_error: 'Session id is required',
     }),
   }),
-};
+}
 
 const updateDeleteParams = {
   params: object({
     id: string({
-      required_error: "Booking id is required",
+      required_error: 'Booking id is required',
     }),
   }),
 }
 
 export const createBookingSchema = object({
-  ...payload
-});
-export const updateBookingScehma = object({
   ...payload,
-  ...updateDeleteParams
-});
-export const deleteBookingScehma = object({
-  ...updateDeleteParams
+})
+export const updateBookingSchema = object({
+  ...payload,
+  ...updateDeleteParams,
+})
+export const deleteBookingSchema = object({
+  ...updateDeleteParams,
 })
 export const getBookingsSchema = object({
-  ...getParams
+  ...getParams,
 })
 
-
-export type CreateBookingInput = TypeOf<typeof createBookingSchema>;
-export type UpdateBookingInput = TypeOf<typeof updateBookingScehma>;
-export type ReadBookingsInput = TypeOf<typeof getBookingsSchema>;
-export type DeleteBookingInput = TypeOf<typeof deleteBookingScehma>;
+export type CreateBookingInput = TypeOf<typeof createBookingSchema>
+export type UpdateBookingInput = TypeOf<typeof updateBookingSchema>
+export type ReadBookingsInput = TypeOf<typeof getBookingsSchema>
+export type DeleteBookingInput = TypeOf<typeof deleteBookingSchema>
