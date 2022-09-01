@@ -1,9 +1,5 @@
 export type Movie = {
-  id: number
+  _id: string
   title: string
-  description: string
-  duration: number
-  directors: string[]
-  stars: string[]
   poster: string
 }
