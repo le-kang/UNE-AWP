@@ -7,7 +7,7 @@ import { getMovieById } from '../service/movie.service'
 import { getTheatreById } from '../service/theatre.service'
 import {
   getBookingsBySessionId,
-  getBookingsByFilter,
+  getBookingByFilter,
 } from '../service/booking.service'
 import { deserializeUser } from '../middleware/deserializeUser'
 
@@ -31,15 +31,23 @@ sessionHandler.get(
     if (!movie) return res.sendStatus(400)
 
     const allBookings = await getBookingsBySessionId(sessionId)
-    const userBookings = await getBookingsByFilter({ sessionId, userId })
+    const userBooking = await getBookingByFilter({ sessionId, userId })
 
-    const occupiedSeats = allBookings.map((b) => b.seats).flat()
-    const userSeats = userBookings.map((b) => b.seats).flat()
+    const userBookingId = userBooking?._id
+    const userSeats = userBooking?.seats || []
+    const occupiedSeats = allBookings
+      .map((b) => b.seats)
+      .flat()
+      .filter((s) => !userSeats.find((userSeat) => userSeat === s))
 
-    // TODO: calculate user booked seats
-    return res
-      .status(200)
-      .json({ ...session, movie, theatre, occupiedSeats, userSeats })
+    return res.status(200).json({
+      ...session,
+      movie,
+      theatre,
+      occupiedSeats,
+      userSeats,
+      userBookingId,
+    })
   }
 )
 

@@ -86,6 +86,10 @@ export async function deleteBooking(id: string, userId: string) {
   })
 }
 
+export async function getBookingByFilter(query: FilterQuery<BookingDocument>) {
+  return await BookingModel.findOne(query).lean()
+}
+
 export async function getBookingsByFilter(query: FilterQuery<BookingDocument>) {
   return await BookingModel.find(query).lean()
 }
