@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router-dom'
 import style from './MovieItem.module.css'
 
 type MovieItemProps = {
-  id: number
+  id: string
   title: string
   poster: string
 }

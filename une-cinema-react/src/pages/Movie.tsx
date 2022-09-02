@@ -1,14 +1,24 @@
+import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import movies from '../data/movies.json'
-import sessions from '../data/sessions.json'
 
+import type { MovieDetails } from '../types'
+import { get } from '../utils/http'
 import style from './Movie.module.css'
 
 export default function Movie() {
   const navigate = useNavigate()
-  const { movieId } = useParams()
-  if (!movieId) return null
-  const movie = movies.find((m) => m.id === parseInt(movieId))
+  const { movieId = '' } = useParams()
+  const [movie, setMovie] = useState<MovieDetails>()
+
+  const fetchMovieDetails = async (id: string) => {
+    const fetchedMovie = await get<MovieDetails>(`/api/movies/${id}`)
+    setMovie(fetchedMovie)
+  }
+
+  useEffect(() => {
+    fetchMovieDetails(movieId)
+  }, [movieId])
+
   if (!movie) return null
 
   return (
@@ -31,17 +41,15 @@ export default function Movie() {
       </div>
       <div className={style.description}>{movie.description}</div>
       <div className={style.sessions}>
-        {sessions
-          .filter((session) => session.movieId === parseInt(movieId))
-          .map((session) => (
-            <button
-              key={session.id}
-              className={style.session}
-              onClick={() => navigate(`../session/${session.id}`)}
-            >
-              {session.time}
-            </button>
-          ))}
+        {movie.sessions.map((session) => (
+          <button
+            key={session._id}
+            className={style.session}
+            onClick={() => navigate(`../session/${session._id}`)}
+          >
+            {session.time}
+          </button>
+        ))}
       </div>
     </div>
   )

@@ -10,7 +10,7 @@ jest.mock('react-router-dom', () => ({
 }))
 
 const movieItemProps = {
-  id: 1,
+  id: 'movie-1',
   title: 'A movie',
   poster: 'poster-link',
 }
