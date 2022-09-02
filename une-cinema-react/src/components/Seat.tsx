@@ -7,6 +7,7 @@ import style from './Seat.module.css'
 type SeatProps = {
   id: number
   isSelected?: boolean
+  isOccupied?: boolean
   dispatch: React.Dispatch<BookingAction>
 }
 
@@ -25,9 +26,13 @@ const getClassNames = (status: SEAT_STATUS) => {
 }
 
 export default memo(function Seat(props: SeatProps) {
-  const { id, dispatch, isSelected = false } = props
+  const { id, dispatch, isSelected = false, isOccupied = false } = props
   const [status, setStatus] = useState(
-    isSelected ? SEAT_STATUS.SELECTED : SEAT_STATUS.AVAILABLE
+    isOccupied
+      ? SEAT_STATUS.OCCUPIED
+      : isSelected
+      ? SEAT_STATUS.SELECTED
+      : SEAT_STATUS.AVAILABLE
   )
 
   const handleClick = () => {

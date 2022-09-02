@@ -7,4 +7,5 @@ export enum SEAT_STATUS {
 export enum BookingActionType {
   SELECT = 'SELECT',
   DESELECT = 'DESELECT',
+  INITIALISE = 'INITIALISE',
 }

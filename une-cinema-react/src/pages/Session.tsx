@@ -1,19 +1,18 @@
-import { useContext, useReducer } from 'react'
+import { useContext, useCallback, useReducer, useEffect, useState } from 'react'
 import { Navigate, useParams, useNavigate } from 'react-router-dom'
 import { UserContext } from '../context'
 import { Seat } from '../components'
-import { useLocalStorage } from '../hooks'
-import movies from '../data/movies.json'
-import sessions from '../data/sessions.json'
-import theaters from '../data/theaters.json'
 import { BookingActionType } from '../constants'
-import { BookingAction } from '../types'
+import { BookingAction, SessionDetails } from '../types'
+import { get, post, put, del } from '../utils/http'
 
 import style from './Session.module.css'
 
 function bookingReducer(state: number[], action: BookingAction) {
   const { type, payload } = action
   switch (type) {
+    case BookingActionType.INITIALISE:
+      return payload
     case BookingActionType.SELECT:
       return [...state, payload]
     case BookingActionType.DESELECT:
@@ -23,35 +22,51 @@ function bookingReducer(state: number[], action: BookingAction) {
   }
 }
 
-// {
-//   "session-1": [2,3]
-//   "session-2": [0,1]
-// }
-
 export default function Session() {
-  const { user } = useContext(UserContext)
+  const { user, logout } = useContext(UserContext)
   const { sessionId } = useParams()
   const navigate = useNavigate()
-  const [bookings, saveBookings] = useLocalStorage<Record<string, number[]>>(
-    'bookings',
-    {}
-  )
-  const { [`session-${sessionId}`]: selectedSeats = [], ...otherBookings } =
-    bookings
-  const [state, dispatch] = useReducer(bookingReducer, selectedSeats)
-  if (!user) return <Navigate to="/login" replace />
-  if (!sessionId) return null
-  const session = sessions.find((s) => s.id === parseInt(sessionId))
-  if (!session) return null
-  const theater = theaters.find((t) => t.id === session.theaterId)
-  if (!theater) return null
-  const { rows, seats } = theater
+  const [sessionDetails, setSessionDetails] = useState<SessionDetails>()
+  const [selectedSeats, dispatch] = useReducer(bookingReducer, [])
 
-  const handleConfirmClick = () => {
-    if (state.length > 0) {
-      saveBookings({ ...bookings, [`session-${sessionId}`]: state })
+  const fetchSessionDetails = useCallback(async () => {
+    try {
+      const result = await get<SessionDetails>(`/api/sessions/${sessionId}`)
+      setSessionDetails(result)
+      dispatch({
+        type: BookingActionType.INITIALISE,
+        payload: result.userSeats,
+      })
+    } catch (error) {
+      console.log((error as Error).message)
+      logout()
+      navigate('/')
+    }
+  }, [logout, navigate, sessionId])
+
+  useEffect(() => {
+    if (!user) return
+    fetchSessionDetails()
+  }, [fetchSessionDetails, user])
+
+  if (!user) return <Navigate to="/login" replace />
+  if (!sessionDetails) return null
+
+  const { rows, seats } = sessionDetails.theatre
+
+  const handleConfirmClick = async () => {
+    if (!sessionDetails.userBookingId) {
+      await post(`/api/bookings`, {
+        sessionId,
+        seats: selectedSeats,
+      })
+    } else if (selectedSeats.length === 0) {
+      await del(`/api/bookings/${sessionDetails.userBookingId}`)
     } else {
-      saveBookings(otherBookings)
+      await put(`/api/bookings/${sessionDetails.userBookingId}`, {
+        sessionId,
+        seats: selectedSeats,
+      })
     }
     navigate('/bookings')
   }
@@ -59,7 +74,7 @@ export default function Session() {
   return (
     <div className={style.container}>
       <h1 className={style.header}>
-        {movies.find((m) => m.id === session.movieId)?.title} @{session.time}
+        {sessionDetails.movie.title} @{sessionDetails.time}
       </h1>
       <div className={style.theater}>
         <div className={style.screen}>SCREEN</div>
@@ -72,6 +87,7 @@ export default function Session() {
               key={`seat-${index}`}
               id={index}
               isSelected={selectedSeats.includes(index)}
+              isOccupied={sessionDetails.occupiedSeats.includes(index)}
               dispatch={dispatch}
             />
           ))}

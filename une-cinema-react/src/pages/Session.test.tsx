@@ -1,38 +1,37 @@
 import React from 'react'
-import { render, screen, fireEvent } from '@testing-library/react'
+import { render, screen, fireEvent, waitFor } from '@testing-library/react'
 import Session from './Session'
+import { post } from '../utils/http'
 
-const sessionId = 1
-const movieId = 1
-const theaterId = 1
+const sessionId = 'session-1'
+const movieId = 'movie-1'
+const theaterId = 'theater-1'
 const movieTitle = 'A movie'
 const time = '7:15PM'
 const rows = 5
 const seats = 6
 
-jest.mock('../data/movies.json', () => [
-  {
-    id: movieId,
-    title: movieTitle,
-  },
-])
-
-jest.mock('../data/sessions.json', () => [
-  {
-    id: sessionId,
-    movieId,
-    theaterId,
-    time,
-  },
-])
-
-jest.mock('../data/theaters.json', () => [
-  {
-    id: theaterId,
-    rows,
-    seats,
-  },
-])
+jest.mock('../utils/http', () => ({
+  get: () =>
+    Promise.resolve({
+      _id: sessionId,
+      movie: {
+        _id: movieId,
+        title: movieTitle,
+      },
+      theatre: {
+        _id: theaterId,
+        rows,
+        seats,
+      },
+      occupiedSeats: [],
+      userSeats: [],
+      time,
+    }),
+  post: jest.fn(),
+  put: jest.fn(),
+  del: jest.fn(),
+}))
 
 const mockUseNavigate = jest.fn()
 
@@ -46,36 +45,32 @@ jest.mock('react-router-dom', () => ({
 const mockUseContext = jest.fn()
 React.useContext = mockUseContext
 
-const mockSaveBooking = jest.fn()
-jest.mock('../hooks', () => ({
-  useLocalStorage: () => [[], mockSaveBooking],
-}))
-
 describe('Session page', () => {
   it('should not render the page if the user is not logged in', () => {
     mockUseContext.mockReturnValue({ user: undefined })
     render(<Session />)
     expect(screen.getByText('Unauthenticated')).toBeInTheDocument()
   })
-  it('should render session page if the user has logged in', () => {
+  it('should render session page if the user has logged in', async () => {
     mockUseContext.mockReturnValue({
-      user: { username: 'user' },
+      user: { _id: 'user', token: 'token' },
     })
     render(<Session />)
-    expect(screen.getByText(`${movieTitle} @${time}`)).toBeInTheDocument()
-    expect(screen.getByText('SCREEN')).toBeInTheDocument()
-    expect(screen.getAllByTestId('seat')).toHaveLength(rows * seats)
-    expect(screen.getByText('Confirm')).toBeInTheDocument()
+    await screen.findByText(`${movieTitle} @${time}`)
+    await screen.findByText('SCREEN')
+    expect(await screen.findAllByTestId('seat')).toHaveLength(rows * seats)
+    await screen.findByText('Confirm')
   })
-  it('should invoke the save bookings function and navigate the user to bookings page when the user clicks on the confirm button', () => {
+  it('should invoke the post api to create a new booking and navigate the user to bookings page when the user clicks on the confirm button', async () => {
     mockUseContext.mockReturnValue({
-      user: { username: 'user' },
+      user: { _id: 'user', token: 'token' },
     })
     render(<Session />)
+    await screen.findByText('Confirm')
     fireEvent.click(screen.getAllByTestId('seat')[0])
     fireEvent.click(screen.getByText('Confirm'))
-    expect(mockSaveBooking).toBeCalledWith({ [`session-${sessionId}`]: [0] })
-    expect(mockUseNavigate).toBeCalledWith('/bookings')
+    expect(post).toBeCalledWith('/api/bookings', { sessionId, seats: [0] })
+    await waitFor(() => expect(mockUseNavigate).toBeCalledWith('/bookings'))
   })
   afterEach(() => {
     mockUseContext.mockReset()
