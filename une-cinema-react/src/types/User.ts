@@ -1,10 +1,6 @@
-// export type User = {
-//   _id: string
-//   token: string
-// }
-
 export type User = {
-  username: string
+  _id: string
+  token: string
 }
 
 export type Credential = {

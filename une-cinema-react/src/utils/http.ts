@@ -1,7 +1,7 @@
 export default async function http<T>(request: RequestInfo): Promise<T> {
   const response = await fetch(request)
   if (!response.ok) {
-    throw new Error(response.statusText)
+    throw new Error(await response.text())
   }
   const headers = response.headers
   const data = headers.get('content-type')?.includes('json')

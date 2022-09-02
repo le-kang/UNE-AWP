@@ -29,7 +29,11 @@ export default function useLocalStorage<T>(key: string, initialValue: T) {
       setStoredValue(valueToStore)
       // Save to local storage
       if (typeof window !== 'undefined') {
-        window.localStorage.setItem(key, JSON.stringify(valueToStore))
+        if (value === undefined) {
+          window.localStorage.removeItem(key)
+        } else {
+          window.localStorage.setItem(key, JSON.stringify(valueToStore))
+        }
       }
     } catch (error) {
       // A more advanced implementation would handle the error case

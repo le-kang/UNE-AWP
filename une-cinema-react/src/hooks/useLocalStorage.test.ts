@@ -22,4 +22,20 @@ describe('useLocalStorage hook', () => {
     expect(storedValue).toEqual(newValue)
     expect(localStorage.getItem(key)).toEqual(JSON.stringify(newValue))
   })
+  it('should remove the key from the storage if the value is undefined', () => {
+    const { result } = renderHook(() =>
+      useLocalStorage<string | undefined>(key, 'test')
+    )
+    const [initialStoredValue, setValue] = result.current
+    expect(initialStoredValue).toEqual('test')
+    act(() => {
+      setValue(undefined)
+    })
+    const [storedValue] = result.current
+    expect(storedValue).toEqual(undefined)
+    expect(localStorage.getItem(key)).toEqual(null)
+  })
+  afterEach(() => {
+    localStorage.removeItem(key)
+  })
 })

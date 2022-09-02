@@ -1,30 +1,30 @@
-import { useState } from 'react'
+import { useContext, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { Button, Input, Message } from '../components'
-import users from '../data/users.json'
+import { UserContext } from '../context'
 
 import style from './Login.module.css'
 
 export default function SignUp() {
+  const { register } = useContext(UserContext)
+  const navigate = useNavigate()
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
   const [errorMessage, setErrorMessage] = useState('')
 
-  const handleSignUp = () => {
-    if (users.find((u) => u.username === username)) {
-      setErrorMessage(`Username ${username} has been taken`)
-      return
-    }
-
+  const handleSignUp = async () => {
+    setErrorMessage('')
     if (password !== confirmPassword) {
       setErrorMessage('Passwords do not match')
       return
     }
-
-    console.log({
-      username,
-      password,
-    })
+    const result = await register(username, password)
+    if (result === true) {
+      navigate('/')
+    } else {
+      setErrorMessage(result)
+    }
   }
 
   return (
@@ -41,6 +41,7 @@ export default function SignUp() {
         placeholder="Username"
         value={username}
         onChange={(e) => {
+          setErrorMessage('')
           setUsername(e.target.value)
         }}
       />
@@ -50,6 +51,7 @@ export default function SignUp() {
         placeholder="Password"
         value={password}
         onChange={(e) => {
+          setErrorMessage('')
           setPassword(e.target.value)
         }}
       />
@@ -60,6 +62,7 @@ export default function SignUp() {
         placeholder="Confirm password"
         value={confirmPassword}
         onChange={(e) => {
+          setErrorMessage('')
           setConfirmPassword(e.target.value)
         }}
       />
