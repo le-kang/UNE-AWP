@@ -38,7 +38,7 @@ sessionHandler.get(
     const occupiedSeats = allBookings
       .map((b) => b.seats)
       .flat()
-      .filter((s) => !userSeats.find((userSeat) => userSeat === s))
+      .filter((s) => userSeats.findIndex((userSeat) => userSeat === s) === -1)
 
     return res.status(200).json({
       ...session,
