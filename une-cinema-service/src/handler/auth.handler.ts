@@ -41,6 +41,7 @@ authHandler.post(
       // return new user with token
       res.status(200).json({ _id: newUser._id, token })
     } catch (err) {
+      console.log(err)
       return res.status(500).send(err)
     }
   }
