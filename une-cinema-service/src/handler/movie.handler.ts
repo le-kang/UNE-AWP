@@ -39,16 +39,4 @@ movieHandler.get(
   }
 )
 
-// // Get sessions for a movie
-// movieHandler.get("/:movieId/session", (req: Request, res: Response) => {
-//   res.status(200).json([
-//     {
-//       "_id": 1,
-//       "movieId": 1,
-//       "theatreId": 1,
-//       "time": "7:15 PM"
-//     },
-//   ])
-// })
-
 export default movieHandler

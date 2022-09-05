@@ -14,4 +14,4 @@ app.use('/api/bookings', bookingHandler)
 app.use('/api/sessions', sessionHandler)
 app.use('/api/auth', authHandler)
 
-export default app;
+export default app

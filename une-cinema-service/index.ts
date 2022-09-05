@@ -2,7 +2,7 @@ import dotenv from 'dotenv'
 import mongoose from 'mongoose'
 
 import connectDB from './src/util/connectDB'
-import app from './src/app';
+import app from './src/app'
 
 dotenv.config()
 const port = process.env.PORT
