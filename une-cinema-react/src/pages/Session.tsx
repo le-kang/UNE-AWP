@@ -1,4 +1,11 @@
-import { useContext, useCallback, useReducer, useEffect, useState } from 'react'
+import {
+  useContext,
+  useCallback,
+  useReducer,
+  useEffect,
+  useState,
+  useMemo,
+} from 'react'
 import { Navigate, useParams, useNavigate } from 'react-router-dom'
 import { UserContext } from '../context'
 import { Seat } from '../components'
@@ -27,12 +34,15 @@ export default function Session() {
   const { sessionId } = useParams()
   const navigate = useNavigate()
   const [sessionDetails, setSessionDetails] = useState<SessionDetails>()
+  const [occupiedSeats, setOccupiedSeats] = useState<number[]>([])
   const [selectedSeats, dispatch] = useReducer(bookingReducer, [])
+  const ws = useMemo(() => new WebSocket('ws://localhost:8080'), [])
 
   const fetchSessionDetails = useCallback(async () => {
     try {
       const result = await get<SessionDetails>(`/api/sessions/${sessionId}`)
       setSessionDetails(result)
+      setOccupiedSeats(result.occupiedSeats)
       dispatch({
         type: BookingActionType.INITIALISE,
         payload: result.userSeats,
@@ -46,8 +56,25 @@ export default function Session() {
 
   useEffect(() => {
     if (!user) return
-    fetchSessionDetails()
-  }, [fetchSessionDetails, user])
+    fetchSessionDetails().then(() => {
+      ws.onmessage = (event) => {
+        const data = JSON.parse(event.data)
+        if (
+          typeof data === 'object' &&
+          data.undatedBy !== user._id &&
+          'occupiedSeats' in data
+        ) {
+          setOccupiedSeats(data.occupiedSeats)
+        }
+      }
+    })
+    return () => {
+      if (ws.readyState === WebSocket.OPEN) {
+        console.log('closing websocket connection')
+        ws.close()
+      }
+    }
+  }, [fetchSessionDetails, user, ws])
 
   if (!user) return <Navigate to="/login" replace />
   if (!sessionDetails) return null
@@ -87,7 +114,7 @@ export default function Session() {
               key={`seat-${index}`}
               id={index}
               isSelected={selectedSeats.includes(index)}
-              isOccupied={sessionDetails.occupiedSeats.includes(index)}
+              isOccupied={occupiedSeats.includes(index)}
               dispatch={dispatch}
             />
           ))}
