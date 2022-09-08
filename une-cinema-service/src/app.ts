@@ -1,3 +1,4 @@
+import { createServer } from 'http'
 import express, { Express } from 'express'
 import theatreHandler from './handler/theatres.handler'
 import movieHandler from './handler/movie.handler'
@@ -13,5 +14,7 @@ app.use('/api/movies', movieHandler)
 app.use('/api/bookings', bookingHandler)
 app.use('/api/sessions', sessionHandler)
 app.use('/api/auth', authHandler)
+
+export const server = createServer(app)
 
 export default app
