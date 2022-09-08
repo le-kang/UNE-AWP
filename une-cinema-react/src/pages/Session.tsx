@@ -58,13 +58,17 @@ export default function Session() {
     if (!user) return
     fetchSessionDetails().then(() => {
       ws.onmessage = (event) => {
-        const data = JSON.parse(event.data)
-        if (
-          typeof data === 'object' &&
-          data.undatedBy !== user._id &&
-          'occupiedSeats' in data
-        ) {
-          setOccupiedSeats(data.occupiedSeats)
+        try {
+          const data = JSON.parse(event.data)
+          if (
+            typeof data === 'object' &&
+            data.undatedBy !== user._id &&
+            'occupiedSeats' in data
+          ) {
+            setOccupiedSeats(data.occupiedSeats)
+          }
+        } catch (e) {
+          console.log(e)
         }
       }
     })

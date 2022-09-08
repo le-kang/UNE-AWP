@@ -1,4 +1,4 @@
-import { useState, memo } from 'react'
+import { useState, memo, useEffect } from 'react'
 import { BookingActionType, SEAT_STATUS } from '../constants'
 import { BookingAction } from '../types'
 
@@ -34,6 +34,16 @@ export default memo(function Seat(props: SeatProps) {
       ? SEAT_STATUS.SELECTED
       : SEAT_STATUS.AVAILABLE
   )
+
+  useEffect(() => {
+    setStatus(
+      isOccupied
+        ? SEAT_STATUS.OCCUPIED
+        : isSelected
+        ? SEAT_STATUS.SELECTED
+        : SEAT_STATUS.AVAILABLE
+    )
+  }, [isOccupied, isSelected])
 
   const handleClick = () => {
     if (status === SEAT_STATUS.AVAILABLE) {
