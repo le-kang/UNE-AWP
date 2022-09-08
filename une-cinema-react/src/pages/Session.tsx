@@ -7,6 +7,9 @@ import {
   useMemo,
 } from 'react'
 import { Navigate, useParams, useNavigate } from 'react-router-dom'
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
+
 import { UserContext } from '../context'
 import { Seat } from '../components'
 import { BookingActionType } from '../constants'
@@ -37,6 +40,7 @@ export default function Session() {
   const [occupiedSeats, setOccupiedSeats] = useState<number[]>([])
   const [selectedSeats, dispatch] = useReducer(bookingReducer, [])
   const ws = useMemo(() => new WebSocket('ws://localhost:8080'), [])
+  const notify = (message: string) => toast(message)
 
   const fetchSessionDetails = useCallback(async () => {
     try {
@@ -66,6 +70,7 @@ export default function Session() {
             'occupiedSeats' in data
           ) {
             setOccupiedSeats(data.occupiedSeats)
+            notify('Seat map is updated')
           }
         } catch (e) {
           console.log(e)
@@ -127,6 +132,7 @@ export default function Session() {
       <button className={style.button} onClick={handleConfirmClick}>
         Confirm
       </button>
+      <ToastContainer />
     </div>
   )
 }
