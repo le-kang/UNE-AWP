@@ -1,5 +1,7 @@
 # UNE Advanced Web Programming Course - Demo projects
 
+## Start the applications
+
 1. The simple TypeScript app - `une-cinema-typescript`:
 
    - change to app directory: `cd une-cinema-typescript`
@@ -19,3 +21,5 @@
    - go to [http://localhost:3000](http://localhost:1234)
    - the sever is available at [http://localhost:8080](http://localhost:8080)
    - the mongodb via docker container can be access via mongodb://localhost:27017
+
+## You can access the full stack application from [https://lively-biscuit-530069.netlify.app/](https://lively-biscuit-530069.netlify.app/)
