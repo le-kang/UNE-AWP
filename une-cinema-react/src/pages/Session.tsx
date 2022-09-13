@@ -12,7 +12,7 @@ import 'react-toastify/dist/ReactToastify.css'
 
 import { UserContext } from '../context'
 import { Seat } from '../components'
-import { BookingActionType } from '../constants'
+import { API_HOST, BookingActionType } from '../constants'
 import { BookingAction, SessionDetails } from '../types'
 import { get, post, put, del } from '../utils/http'
 
@@ -32,6 +32,12 @@ function bookingReducer(state: number[], action: BookingAction) {
   }
 }
 
+const getWebSocketURL = () => {
+  if (!API_HOST) return 'ws://localhost:8080'
+  const hostURL = new URL(API_HOST)
+  return `${hostURL.protocol === 'https:' ? `wss` : `ws`}://${hostURL.hostname}`
+}
+
 export default function Session() {
   const { user, logout } = useContext(UserContext)
   const { sessionId } = useParams()
@@ -39,12 +45,14 @@ export default function Session() {
   const [sessionDetails, setSessionDetails] = useState<SessionDetails>()
   const [occupiedSeats, setOccupiedSeats] = useState<number[]>([])
   const [selectedSeats, dispatch] = useReducer(bookingReducer, [])
-  const ws = useMemo(() => new WebSocket('ws://localhost:8080'), [])
+  const ws = useMemo(() => new WebSocket(getWebSocketURL()), [])
   const notify = (message: string) => toast(message)
 
   const fetchSessionDetails = useCallback(async () => {
     try {
-      const result = await get<SessionDetails>(`/api/sessions/${sessionId}`)
+      const result = await get<SessionDetails>(
+        `${API_HOST}/api/sessions/${sessionId}`
+      )
       setSessionDetails(result)
       setOccupiedSeats(result.occupiedSeats)
       dispatch({
@@ -92,14 +100,14 @@ export default function Session() {
 
   const handleConfirmClick = async () => {
     if (!sessionDetails.userBookingId) {
-      await post(`/api/bookings`, {
+      await post(`${API_HOST}/api/bookings`, {
         sessionId,
         seats: selectedSeats,
       })
     } else if (selectedSeats.length === 0) {
-      await del(`/api/bookings/${sessionDetails.userBookingId}`)
+      await del(`${API_HOST}/api/bookings/${sessionDetails.userBookingId}`)
     } else {
-      await put(`/api/bookings/${sessionDetails.userBookingId}`, {
+      await put(`${API_HOST}/api/bookings/${sessionDetails.userBookingId}`, {
         sessionId,
         seats: selectedSeats,
       })

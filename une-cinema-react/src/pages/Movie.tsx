@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 
+import { API_HOST } from '../constants'
 import type { MovieDetails } from '../types'
 import { get } from '../utils/http'
 import style from './Movie.module.css'
@@ -11,7 +12,7 @@ export default function Movie() {
   const [movie, setMovie] = useState<MovieDetails>()
 
   const fetchMovieDetails = async (id: string) => {
-    const fetchedMovie = await get<MovieDetails>(`/api/movies/${id}`)
+    const fetchedMovie = await get<MovieDetails>(`${API_HOST}/api/movies/${id}`)
     setMovie(fetchedMovie)
   }
 

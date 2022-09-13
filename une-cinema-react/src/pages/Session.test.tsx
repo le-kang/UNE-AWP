@@ -2,6 +2,7 @@ import React from 'react'
 import { render, screen, fireEvent, waitFor } from '@testing-library/react'
 import Session from './Session'
 import { post } from '../utils/http'
+import { API_HOST } from '../constants'
 
 const sessionId = 'session-1'
 const movieId = 'movie-1'
@@ -69,7 +70,10 @@ describe('Session page', () => {
     await screen.findByText('Confirm')
     fireEvent.click(screen.getAllByTestId('seat')[0])
     fireEvent.click(screen.getByText('Confirm'))
-    expect(post).toBeCalledWith('/api/bookings', { sessionId, seats: [0] })
+    expect(post).toBeCalledWith(`${API_HOST}/api/bookings`, {
+      sessionId,
+      seats: [0],
+    })
     await waitFor(() => expect(mockUseNavigate).toBeCalledWith('/bookings'))
   })
   afterEach(() => {

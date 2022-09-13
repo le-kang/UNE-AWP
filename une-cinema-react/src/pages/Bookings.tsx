@@ -3,6 +3,7 @@ import { Navigate, useNavigate } from 'react-router-dom'
 import { UserContext } from '../context'
 import { get } from '../utils/http'
 import { Booking } from '../types'
+import { API_HOST } from '../constants'
 
 import style from './Bookings.module.css'
 
@@ -13,7 +14,7 @@ export default function Bookings() {
 
   const fetchBookings = useCallback(async () => {
     try {
-      const result = await get<Booking[]>('/api/bookings')
+      const result = await get<Booking[]>(`${API_HOST}/api/bookings`)
       setBookings(result)
     } catch (error) {
       console.log((error as Error).message)

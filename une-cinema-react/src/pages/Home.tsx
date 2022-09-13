@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { MovieItem } from '../components'
+import { API_HOST } from '../constants'
 import type { Movie } from '../types'
 import { get } from '../utils/http'
 
@@ -9,7 +10,7 @@ export default function Home() {
   const [movies, setMovies] = useState<Movie[]>([])
 
   const fetchMovies = async () => {
-    const fetchedMovies = await get<Movie[]>('/api/movies')
+    const fetchedMovies = await get<Movie[]>(`${API_HOST}/api/movies`)
     setMovies(fetchedMovies)
   }
 
