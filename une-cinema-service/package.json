@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "ts-node-dev --respawn --transpile-only index.ts",
+    "dev": "ts-node-dev --respawn --transpile-only src/index.ts",
     "bootstrapdb": "ts-node src/util/bootstrapDB.ts",
-    "start": "npx tsc && node dist/index.js",
+    "start": "npx tsc && node dist/src/index.js",
     "test": "jest"
   },
   "keywords": [],

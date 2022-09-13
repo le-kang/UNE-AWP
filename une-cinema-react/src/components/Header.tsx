@@ -43,7 +43,7 @@ export default function Header() {
   return (
     <header className={style.header}>
       <div className={style.container}>
-        <Link to="/">UNE Cinema</Link>
+        <Link to="/">UNE Cinema App</Link>
         <div className={style.actions}>{getActions()}</div>
       </div>
     </header>

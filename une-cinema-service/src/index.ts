@@ -1,9 +1,9 @@
 import dotenv from 'dotenv'
 import mongoose from 'mongoose'
 
-import connectDB from './src/util/connectDB'
-import { server } from './src/app'
-import { startWebSocketServer } from './src/websocket'
+import connectDB from './util/connectDB'
+import { server } from './app'
+import { startWebSocketServer } from './websocket'
 
 dotenv.config()
 const port = process.env.PORT
